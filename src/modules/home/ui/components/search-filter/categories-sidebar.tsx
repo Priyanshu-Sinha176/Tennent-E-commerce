@@ -1,4 +1,3 @@
-import { CustomCategory } from "../types"
 import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -6,17 +5,24 @@ import Link from 'next/link';
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface Props {
+
     open: boolean,
-    onOpenChange: (open: boolean) => void,
-    data: CustomCategory
+    onOpenChange: (open: boolean) => void
+    
 }
 
-export default function CategoriesSidebar({ open, onOpenChange, data }: Props) {
+export default function CategoriesSidebar({ open, onOpenChange }: Props) {
 
-    const [parentCategories, setParentCategories] = useState<CustomCategory[] | null>(null)
-    const [selectedCategory, setselectedCategory] = useState<CustomCategory[] | null>(null)
+    const trpc = useTRPC()
+    const { data} = useQuery ( trpc.categories.getMany.queryOptions() )
+
+    const [parentCategories, setParentCategories] = useState<CategoriesGetManyOutput | null>(null)
+    const [selectedCategory, setselectedCategory] = useState<CategoriesGetManyOutput[1] | null>(null)
 
     const currentCategories = parentCategories ?? data ?? []
     const router = useRouter()
@@ -29,11 +35,11 @@ export default function CategoriesSidebar({ open, onOpenChange, data }: Props) {
 
     }
 
-    const handleCategoryClick = (category: CustomCategory) => {
+    const handleCategoryClick = ( category: CategoriesGetManyOutput[1] ) => {
 
         if (category.subcategories && category.subcategories.length > 0) {
 
-            setParentCategories(category.subcategories as CustomCategory[])
+            setParentCategories(category.subcategories as CategoriesGetManyOutput)
             setselectedCategory(category)
 
         }

@@ -2,14 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Category } from "@/payload-types";
 import { useRef, useState } from "react";
-import { useDropdownPosition } from "./use-dropdown-position";
 import { SubcategoryMenu } from "./subcategory-menu";
 import Link from "next/link";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface Props {
-    category: Category,
+    category: CategoriesGetManyOutput[1]
     isActive?: boolean,
     isNavigationHovered?: boolean
 }
@@ -18,7 +17,6 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
 
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
-    const { getDropdownPosition } = useDropdownPosition(dropdownRef)
 
     const onMouseEnter = () => {
         if (category.subcategories) {
@@ -27,7 +25,8 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
     }
 
     const onMouseLeave = () => setIsOpen(false)
-    const dropdownPosition = getDropdownPosition()
+
+    /*
 
     const toggleDropdown = () => {
 
@@ -35,10 +34,14 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
             setIsOpen(!isOpen)
         }
     }
+
+    */
+
     return (
 
-        <div className="relative" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}
-            ref={dropdownRef} onClick={toggleDropdown}>
+        <div className="relative" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} ref={dropdownRef}
+        // onClick={toggleDropdown}
+        >
 
             <div className="relative">
 
@@ -48,7 +51,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
                     isOpen && "bg-amber-200 border-black"
                 )} >
 
-                    <Link href={ ` /${category.slug  === "all" ? " " : category.slug } ` }>
+                    <Link href={` /${category.slug === "all" ? " " : category.slug} `}>
 
                         {category.name}
 
@@ -67,7 +70,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
 
             </div>
 
-            < SubcategoryMenu category={category} isOpen={isOpen} position={dropdownPosition} />
+            < SubcategoryMenu category={category} isOpen={isOpen} />
 
         </div>
 

@@ -8,6 +8,8 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import NavbarSidebar from './navbar-sidebar';
 import { MenuIcon } from 'lucide-react';
+import { useTRPC } from '@/trpc/client';
+import { useQuery } from '@tanstack/react-query';
 
 const poppins = Poppins({
     weight: ['700'],
@@ -62,6 +64,9 @@ const Navbar = () => {
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    const trpc = useTRPC()
+    const session = useQuery(trpc.auth.session.queryOptions())
+
     return (
         <nav className='h-20 flex border-b justify-between font-medium bg-white'>
 
@@ -87,36 +92,57 @@ const Navbar = () => {
 
             </div>
 
-            < div className='hidden lg:flex'>
+            {session.data?.user ? (
 
-                <Button asChild variant="secondary" className=
-                    'border-l border-y-0 border-r-0 px-12 h-full rounded-none bg-white hover:bg-rose-400 transition-colors text-lg'>
+                <div className='hidden lg:flex'>
 
-                    <Link href="/sign-in">
+                    <Button asChild className=
+                        'border-l border-y-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-rose-400 hover:text-black transition-colors text-lg'>
 
-                        Log in
+                        <Link href="/admin">
 
-                    </Link>
+                            Dashboard
 
-                </Button>
+                        </Link>
 
-                <Button asChild className=
-                    'border-l border-y-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-rose-400 hover:text-black transition-colors text-lg'>
+                    </Button>
 
-                    <Link href="/sign-up">
+                </div>
 
-                        Start Selling
+            ) : (
 
-                    </Link>
+                < div className='hidden lg:flex'>
 
-                </Button>
+                    <Button asChild variant="secondary" className=
+                        'border-l border-y-0 border-r-0 px-12 h-full rounded-none bg-white hover:bg-rose-400 transition-colors text-lg'>
 
-            </div>
+                        <Link prefetch href="/sign-in">
+
+                            Log in
+
+                        </Link>
+
+                    </Button>
+
+                    <Button asChild className=
+                        'border-l border-y-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-rose-400 hover:text-black transition-colors text-lg'>
+
+                        <Link prefetch href="/sign-up">
+
+                            Start Selling
+
+                        </Link>
+
+                    </Button>
+
+                </div>
+
+            )}
 
             <div className='flex lg:hidden items-center justify-center pr-4'>
 
-                <Button variant="ghost" className='size-12 border-transparent bg-white hover:bg-rose-300' 
-                 onClick={() => setIsSidebarOpen(true)}>
+                <Button variant="ghost" className='size-12 border-transparent bg-white hover:bg-rose-300'
+                    onClick={() => setIsSidebarOpen(true)}>
 
                     < MenuIcon />
 
