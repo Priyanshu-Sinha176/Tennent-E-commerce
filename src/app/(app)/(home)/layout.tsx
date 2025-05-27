@@ -1,11 +1,10 @@
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 
-import Footer from "./footer";
-import Navbar from "./navbar";
-import { SearchFilter } from "./search-filter";
-import { Category } from '@/payload-types';
-import { CustomCategory } from './types';
+import Footer from "../../../modules/home/ui/components/footer";
+import Navbar from "../../../modules/home/ui/components/navbar";
+import { SearchFilter, SearchFilterSkleton } from "../../../modules/home/ui/components/search-filter";
+import { getQueryClient, trpc } from '@/trpc/server';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { Suspense } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -13,43 +12,33 @@ interface Props {
 
 const Layout = async ({ children }: Props) => {
 
-  const payload = await getPayload({
-    config: configPromise,
-  })
+  const queryClient = getQueryClient()
+  void queryClient.prefetchQuery(
+    trpc.categories.getMany.queryOptions()
+  )
 
-  const data = await payload.find({
-    collection: "categories",
-    depth: 1,
-    pagination: false,
-    where: {
-      parent: {
-        exists: false
-      }
-    },
-    sort: "name",
-  })
+    return (
+      
+      <div className="flex flex-col min-h-screen">
 
-  const formattedData : CustomCategory [] = data.docs.map((doc) => ({
-    ...doc,
-    subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
-      ...(doc as Category),
-      subcategories: undefined,
-    }))
-  }))
+        < Navbar />
 
-  return (
-    <div className="flex flex-col min-h-screen">
+        < HydrationBoundary state={dehydrate(queryClient)}>
 
-      < Navbar />
+        <Suspense fallback={ < SearchFilterSkleton />  }>
 
-      < SearchFilter data={formattedData} />
+        < SearchFilter  />
 
-      <div className="flex-1"> {children} </div>
+        </Suspense>
 
-      < Footer />
+        </HydrationBoundary>
 
-    </div>
-  );
-}
+        <div className="flex-1 bg-[#F4F4F0]"> {children} </div>
+
+        < Footer />
+
+      </div >
+    );
+  }
 
 export default Layout;
