@@ -6,5 +6,20 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateTenantURL(tenantSlug: string) {
-  return `/tenants/${tenantSlug}`
+
+  if (process.env.NODE_ENV === "development") {
+    `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${tenantSlug}`
+  }
+
+  const protocal = "https"
+  const domain = process.env.NEXT_PUBLIC_ROOT_DOMAIN!
+
+  return `${protocal}://${tenantSlug}.${domain}`
+
+}
+
+export function formatCurrency(value: number | string) {
+  return new Intl.NumberFormat("en-IN",
+    { style: "currency", currency: "INR", maximumFractionDigits: 0 })
+    .format(Number(value))
 }
