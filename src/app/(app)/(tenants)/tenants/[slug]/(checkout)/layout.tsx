@@ -2,7 +2,6 @@ import { Footer } from "@/modules/tenants/ui/components/footer";
 import { Navbar } from "@/modules/checkout/ui/components/navbar";
 import { getQueryClient, trpc } from "@/trpc/server";
 
-
 interface Props {
     children: React.ReactNode;
     params: Promise<{ slug: string }>;

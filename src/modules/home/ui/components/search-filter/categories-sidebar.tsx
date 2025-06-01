@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import Link from 'next/link';
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";

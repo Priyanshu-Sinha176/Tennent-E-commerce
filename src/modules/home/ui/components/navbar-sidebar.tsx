@@ -30,7 +30,7 @@ const NavbarSidebar = ({ items, open, onOpenChange }: Props) => {
 
                     <ScrollArea className='flex flex-col overflow-y-auto h-full pb-2'>
 
-                        {items.map((item, index) => (
+                        {items.map((item) => (
 
                             <Link key={item.href} href={item.href} className=
                                 'w-full text-left p-4 hover:bg-black hover:text-white flex items-center text-base font-medium' 

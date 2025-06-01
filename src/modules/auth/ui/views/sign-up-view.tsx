@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { registerSchema } from "../../schemas";
 import Link from "next/link";
 import { useTRPC } from "@/trpc/client";
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -32,7 +32,7 @@ export const SignUpView = () => {
             toast.error( error.message );
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries(trpc.auth.session.queryFilter()),
+            await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
             router.push("/")
         },
     }))

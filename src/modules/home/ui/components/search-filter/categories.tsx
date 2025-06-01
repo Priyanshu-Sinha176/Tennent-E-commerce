@@ -1,6 +1,5 @@
 "use client"
 
-import { Category } from "@/payload-types"
 import { CategoryDropdown } from "./category-dropdown"
 import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"

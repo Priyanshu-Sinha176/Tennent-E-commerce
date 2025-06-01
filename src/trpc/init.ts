@@ -1,5 +1,4 @@
 import { initTRPC, TRPCError } from '@trpc/server';
-import { get } from 'http';
 import { getPayload } from 'payload';
 import { cache } from 'react';
 import configPromise from '@payload-config';
