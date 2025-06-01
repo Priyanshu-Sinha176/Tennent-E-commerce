@@ -4,6 +4,7 @@ import { parseAsArrayOf, parseAsString, parseAsStringLiteral, useQueryStates } f
 const sortValues = ["curated", "trending", "hot_and_new"] as const;
 
 const clientParams = {
+  search: parseAsString.withOptions({ clearOnDefault: true }).withDefault(""),
   minPrice: parseAsString.withOptions({ clearOnDefault: true }).withDefault(""),
   maxPrice: parseAsString.withOptions({ clearOnDefault: true }).withDefault(""),
   tags: parseAsArrayOf(parseAsString).withOptions({ clearOnDefault: true }).withDefault([]),

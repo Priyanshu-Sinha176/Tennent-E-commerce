@@ -106,6 +106,7 @@ export const productsRouter = createTRPCRouter({
     input(z.object({
 
       category: z.string().nullable().optional(),
+      search: z.string().nullable().optional(),
       minPrice: z.number().nullable().optional(),
       maxPrice: z.number().nullable().optional(),
       tags: z.array(z.string()).nullable().optional(),
@@ -201,6 +202,10 @@ export const productsRouter = createTRPCRouter({
         where["tags.name"] = {
           in: input.tags
         }
+      }
+
+      if (input.search) {
+        where["name"]={like: input.search}
       }
 
       const data = await ctx.db.find({
