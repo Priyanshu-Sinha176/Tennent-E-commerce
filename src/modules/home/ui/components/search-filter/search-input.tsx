@@ -1,5 +1,3 @@
-"use client"
-
 import { Input } from "@/components/ui/input";
 import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
 import CategoriesSidebar from "./categories-sidebar";
@@ -8,27 +6,26 @@ import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
 
 interface Props {
     disable?: boolean;
+    defaultValue?: string | undefined,
+    onChange?: (value: string) => void
 }
 
-export const SearchInput = ({ disable }: Props) => {
+export const SearchInput = ({ disable, defaultValue, onChange }: Props) => {
 
-    const [filters, setFilters] = useProductFilters()
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    const [searchValue, setSearchValues] = useState(filters.search)
+    const [searchValue, setSearchValues] = useState(defaultValue || "")
 
     const trpc = useTRPC()
     const session = useQuery(trpc.auth.session.queryOptions())
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => { setFilters({ search: searchValue }) }, 500)
+        const timeoutId = setTimeout(() => { onChange?.(searchValue) }, 500)
 
         return () => clearTimeout(timeoutId)
-    }, [searchValue, setFilters])
+    }, [searchValue, onChange])
 
     return (
 
