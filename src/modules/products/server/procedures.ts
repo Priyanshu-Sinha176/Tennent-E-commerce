@@ -65,7 +65,12 @@ export const productsRouter = createTRPCRouter({
     if (reviews.totalDocs > 0) {
 
       reviews.docs.forEach((review) => {
-        const rating = reviewRating
+
+        // chat gpt suggested code
+        const rating = review.rating
+
+        // my code
+        // const rating = reviewRating
 
         if (rating >= 1 && rating <= 5) {
           ratingDistribution[rating] = (ratingDistribution[rating] || 0) + 1

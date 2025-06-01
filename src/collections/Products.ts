@@ -1,7 +1,6 @@
 import { isSuperAdmin } from "@/lib/access";
 import { Tenant } from "@/payload-types";
 import { lexicalEditor, UploadFeature } from "@payloadcms/richtext-lexical";
-import { Check } from "lucide-react";
 import { CollectionConfig } from "payload";
 
 export const Products: CollectionConfig = {

@@ -1,10 +1,8 @@
-import { Category, Media, Tenant } from "@/payload-types";
+import { Media, Tenant } from "@/payload-types";
 import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import type Stripe from "stripe";
-import { Currency } from "lucide-react";
-import { metadata } from "@payloadcms/next/layouts";
 import { CheckoutMetadata, ProductMetaData } from "../types";
 import { stripe } from "@/lib/stripe";
 import { generateTenantURL } from "@/lib/utils";

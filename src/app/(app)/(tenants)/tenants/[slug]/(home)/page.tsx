@@ -6,14 +6,14 @@ import { loadProductFilters } from "@/modules/products/searchParams";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 interface Props {
-    searchPrams: Promise<SearchParams>
+    searchParams: Promise<SearchParams>
     params: Promise<{ slug: string }>
 }
 
-const Page = async ( { searchPrams , params } : Props) => {
+const Page = async ( { searchParams , params } : Props) => {
 
     const { slug } = await params;
-    const filters = await loadProductFilters(searchPrams);
+    const filters = await loadProductFilters(searchParams);
 
     const queryClient = getQueryClient();
 

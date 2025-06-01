@@ -11,7 +11,7 @@ interface StarPickerProps {
     className?: string
 }
 
-export const StarPicker = ({ value, onChange, disabled, className }: StarPickerProps) => {
+export const StarPicker = ({ value, onChange, disabled }: StarPickerProps) => {
 
     const [hoverValue, setHoverValue] = useState(0)
 
